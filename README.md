@@ -165,6 +165,16 @@ By default, GeoCombine will index only records using the Aardvark metadata forma
 $ SCHEMA_VERSION=1.0 bundle exec rake geocombine:index
 ```
 
+### Indexing local documents
+
+If you have a directory of your own records that you want to index, use the `ingest` task:
+
+```sh
+rake geocombine:ingest[/path/to/your/records]
+```
+
+The `ingest` task also supports `SOLR_URL`, `SCHEMA_VERSION` and `LOG_LEVEL` per the above information.
+
 ### Harvesting and indexing documents from GeoBlacklight sites
 
 GeoCombine provides a Harvester class and rake task to harvest and index content from GeoBlacklight sites (or any site that follows the Blacklight API format). Given that the configurations can change from consumer to consumer and site to site, the class provides a relatively simple configuration API. This can be configured in an initializer, a wrapping rake task, or any other ruby context where the rake task our class would be invoked.

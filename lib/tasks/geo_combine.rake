@@ -6,6 +6,7 @@ require 'find'
 require 'faraday/net_http_persistent'
 require 'geo_combine/harvester'
 require 'geo_combine/indexer'
+require 'geo_combine/loader'
 require 'geo_combine/geo_blacklight_harvester'
 
 namespace :geocombine do
@@ -26,6 +27,14 @@ namespace :geocombine do
     harvester = GeoCombine::Harvester.new
     indexer = GeoCombine::Indexer.new
     indexer.index(harvester.docs_to_index)
+  end
+
+  desc 'Index all JSON documents from the specified directory'
+  task :ingest, [:directory] do |_t, args|
+    raise ArgumentError, 'A directory argument is required' unless args[:directory]
+    loader = GeoCombine::Loader.new(directory: args[:directory])
+    indexer = GeoCombine::Indexer.new
+    indexer.index(loader.docs_to_index)
   end
 
   namespace :geoblacklight_harvester do
